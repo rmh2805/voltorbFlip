@@ -88,4 +88,4 @@ clean:
 	-/bin/rm -f $(OBJFILES) voltorbFlip.o core
 
 realclean:        clean
-	-/bin/rm -f voltorbFlip 
+	-/bin/rm -r -f Executables/* 
