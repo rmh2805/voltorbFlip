@@ -1,0 +1,4 @@
+*.o
+!linkedList/*.o
+Executables/*
+!Executables/.placeholder
