@@ -2,12 +2,8 @@
 /// author: rmh2805@rit.edu
 /// purpose: An implementation of voltorbFlip in C (for command line)
 
-#include <stdlib.h>
-#include <stdio.h>
-#include "linkedList.h"
 #include "card.h"
 
-int main () {
+struct card_s {
     
-    return EXIT_SUCCESS;
-}
+};
