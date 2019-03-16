@@ -1,11 +1,14 @@
-/// file: voltorbFlip.c
+/// file: card.h
 /// author: rmh2805@rit.edu
-/// purpose: An implementation of voltorbFlip in C (for command line)
+/// purpose: An implementation of a voltorb flip card
 
 #ifndef  _CARD_H_
 #define  _CARD_H_
+
 #include <stdlib.h>
 #include <stdbool.h>
+
+#define k_Max_Card_Val 3
 
 typedef struct card_s * card_t;
 

@@ -56,7 +56,7 @@ S_FILES =
 H_FILES =	linkedList.h
 SOURCEFILES =	$(H_FILES) $(CPP_FILES) $(C_FILES) $(S_FILES)
 .PRECIOUS:	$(SOURCEFILES)
-OBJFILES =	linkedList.o card.o
+OBJFILES =	linkedList.o card.o board.o
 
 #
 # Main targets
@@ -74,6 +74,7 @@ voltorbFlip:	voltorbFlip.o $(OBJFILES)
 linkedList.o:	linkedList.h
 voltorbFlip.o:	linkedList.h
 card.o: card.h
+board.o: board.h
 
 #
 # Housekeeping
@@ -85,7 +86,7 @@ archive.tgz:	$(SOURCEFILES) Makefile
 	tar cf - $(SOURCEFILES) Makefile | gzip > archive.tgz
 
 clean:
-	-/bin/rm -f $(OBJFILES) voltorbFlip.o core
+	-/bin/rm -r -f *.o core
 
 realclean:        clean
 	-/bin/rm -r -f Executables/* 

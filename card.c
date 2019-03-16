@@ -13,7 +13,7 @@ struct card_s {
 
 //============================<Memory Modification>============================//
 card_t createCard (unsigned val) {
-    if(val < 0 || val > 3)
+    if(val < 0 || val > k_Max_Card_Val)
         return NULL;
         
     
@@ -70,7 +70,7 @@ void flipCard (card_t card) {
 //==================================<Getters>==================================//
 unsigned getVal (card_t card) {
     if(card == NULL)
-        return 4;
+        return k_Max_Card_Val+1;
     
     return card->val;
 }
@@ -140,49 +140,49 @@ bool noted3 (card_t card) {
 //=================================<Printers>==================================//
 void printCard (card_t card) {
     printVertBorder();
-    printf("\n");
+    printf("+\n");
     printTopRow(card);
-    printf("\n");
+    printf("|\n");
     printMidRow(card);
-    printf("\n");
+    printf("|\n");
     printBottomRow(card);
-    printf("\n");
+    printf("|\n");
     printVertBorder();
-    printf("\n");
+    printf("+\n");
 }
 
 void printVertBorder () {
-    printf("+===+");
+    printf("+===");
 }
 
 void printTopRow (card_t card) {
     if(card != NULL) {
         if(card->flipped)
-            printf("|   |");
+            printf("|   ");
         else
-            printf("|%c|%c|",noted0(card)?'0':' ' , noted1(card)?'1':' ');
+            printf("|%c|%c",noted0(card)?'0':' ' , noted1(card)?'1':' ');
     } else 
-        printf("| | |");
+        printf("| | ");
 }
 
 void printMidRow (card_t card) {
     
     if(card != NULL) {
         if(card->flipped)
-            printf("| %d |", card->val);
+            printf("| %d ", card->val);
         else
-            printf("|=+=|");
+            printf("|=+=");
     } else
-        printf("|=+=|");
+        printf("|=+=");
 }
 
 void printBottomRow (card_t card) {
     
     if(card != NULL) {
         if(card->flipped)
-            printf("|   |");
+            printf("|   ");
         else
-            printf("|%c|%c|",noted2(card)?'2':' ' , noted3(card)?'3':' ');
+            printf("|%c|%c",noted2(card)?'2':' ' , noted3(card)?'3':' ');
     } else
-        printf("|%c|%c|",noted2(card)?'2':' ' , noted3(card)?'3':' ');
+        printf("|%c|%c",noted2(card)?'2':' ' , noted3(card)?'3':' ');
 }
