@@ -44,8 +44,10 @@ static void printTopRowBoard(linkedList_t row){
     printf("   |");
     size_t rowScore = 0;
     for (size_t i = 0; i < k_Side_Len; i++) {
-        printTopRow(getIdx(row, i));
-        rowScore += getVal(getIdx(row, i));
+        card_t cell = getIdx(row, i);
+        printTopRow(cell);
+        if(!beenFlipped(cell))
+            rowScore += getVal(cell);
     }
     printf("|| %ld\n", rowScore);
 }
@@ -66,7 +68,7 @@ static void printBottomRowBoard(linkedList_t row){
         card_t cell = getIdx(row, i);
         
         printBottomRow(cell);
-        if(getVal(cell) == 0){
+        if(getVal(cell) == 0 && getNotes(cell) != 1){
             mines += 1;
         } 
         
@@ -91,7 +93,7 @@ static void printBottomBanner (board_t board) {
         for(size_t row = 0; row < k_Side_Len; row++){
             card_t cell = getCell(board, row, col);
             unsigned val = getVal(cell);
-            if (val == 0) {
+            if (val == 0 && getNotes(cell) != 1) {
                 mine += 1;
             }
             
@@ -99,7 +101,9 @@ static void printBottomBanner (board_t board) {
                 available -= 1;
             }
             
-            score += val;
+                
+            if(!beenFlipped(cell))
+                score += getVal(cell);
         }
         
         printf("|%3ld", score);
@@ -185,7 +189,7 @@ void flipCell (board_t board, size_t row, size_t col) {
     card_t cell = getCell(board, row, col);
         
         //If a valid cell && it hasn't been flipped
-    if (cell == NULL && beenFlipped(cell))
+    if (cell == NULL || beenFlipped(cell))
         return;
         
     //flip it

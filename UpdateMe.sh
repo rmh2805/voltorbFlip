@@ -1,1 +1,1 @@
-git pull;make -realclean;make;make clean;
+git pull;make -realclean;make;make clean;cls
