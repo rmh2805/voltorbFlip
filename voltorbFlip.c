@@ -18,10 +18,17 @@
 #define k_Quit_Flag '`'
 
 void printHelp () {
-    printf("Note format: %c[row][col]\n", k_Note_Flag);
+    printf("Note format: %c[row][col][flags to flip]\n", k_Note_Flag);
     printf("Selection format: %c[row][col]\n", k_Select_Flag);
     printf("To review help: %c\n", k_Help_Flag);
     printf("To quit the game: %c\n", k_Quit_Flag);
+    printf("Rank Summaries are as follows:\n");
+    printf("\t\tTotal score of rank\n");
+    printf("\t\tRemaining Hidden score of rank\n");
+    printf("\t\tUnflagged Bombs/Valuable available spaces\n");
+    printf("\tNote: In this case a flagged space is an unflipped space whose\n");
+    printf("\t      only note is a 0, while valuable space is an unflipped\n");
+    printf("\t      space that is unflaged and whose notes aren't just 0 & 1\n");
 }
 
 void printIntro () {
@@ -107,8 +114,14 @@ int main () {
         }
     }
     
-    printf("\nPress <Enter> to continue");
+    if(cellsToReveal(board) == 0)
+        printf("Congratulations! You won!\n");
+    else
+        printf("Better luck next time.\n");
+    
+    printf("\nPress <Enter> to exit");
     fgets(buf, k_Buf_Size, stdin);
+    
     free(buf);
     deleteBoard(board);
     printf("\n");

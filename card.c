@@ -34,16 +34,19 @@ void deleteCard (card_t card) {
 }
 //==================================<Setters>==================================//
 void addNote (card_t card, unsigned noteValue) {
-    if (card != NULL) {
-        if(noteValue == 0 && !noted0(card)){
-            card->notes += 1;
-        } else if(noteValue == 1 && !noted1(card)){
-            card->notes += 2;
-        } else if(noteValue == 2 && !noted2(card)){
-            card->notes += 4;
-        } else if(noteValue == 3 && !noted3(card)){
-            card->notes += 8;
-        }
+    if (card != NULL)
+        return;
+    if (card->flipped)
+        return;
+        
+    if(noteValue == 0 && !noted0(card)){
+        card->notes += 1;
+    } else if(noteValue == 1 && !noted1(card)){
+        card->notes += 2;
+    } else if(noteValue == 2 && !noted2(card)){
+        card->notes += 4;
+    } else if(noteValue == 3 && !noted3(card)){
+        card->notes += 8;
     }
 }
 
@@ -64,6 +67,7 @@ void rmNote(card_t card, unsigned noteValue){
 void flipCard (card_t card) {
     if (card != NULL) {
         card->flipped = true;
+        card->notes = 0;
     }
 }
 

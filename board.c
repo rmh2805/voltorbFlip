@@ -46,18 +46,22 @@ static void printTopRowBoard(linkedList_t row){
     for (size_t i = 0; i < k_Side_Len; i++) {
         card_t cell = getIdx(row, i);
         printTopRow(cell);
-        if(!beenFlipped(cell))
-            rowScore += getVal(cell);
+        rowScore += getVal(cell);
     }
-    printf("|| %ld\n", rowScore);
+    
+    printf("||%3ld\n", rowScore);
 }
 
 static void printMidRowBoard(linkedList_t row, size_t rowNum){
     printf(" %ld |", rowNum);
+    size_t rowScore = 0;
     for (size_t i = 0; i < k_Side_Len; i++) {
-        printMidRow(getIdx(row, i));
+        card_t cell = getIdx(row, i);
+        printMidRow(cell);
+        if(!beenFlipped(cell))
+            rowScore += getVal(cell);
     }
-    printf("||\n");
+    printf("||%3ld\n",rowScore);
 }
 
 static void printBottomRowBoard(linkedList_t row){
@@ -72,7 +76,11 @@ static void printBottomRowBoard(linkedList_t row){
             mines += 1;
         } 
         
-        if (getNotes(cell) == 1 || beenFlipped(cell)) {
+        if (getNotes(cell) == 1 && mines > 0) {
+            mines -= 1;
+        }
+        
+        if (getNotes(cell) == 1 || getNotes(cell) == 3 || beenFlipped(cell)) {
             available -= 1;
         }
     }
@@ -80,6 +88,7 @@ static void printBottomRowBoard(linkedList_t row){
 }
 
 static void printBottomBanner (board_t board) {
+    size_t remainingScores[5];
     size_t mines[5];
     size_t availables[5];
     
@@ -89,27 +98,39 @@ static void printBottomBanner (board_t board) {
         size_t score = 0;
         size_t mine = 0;
         size_t available = 5;
+        size_t remainingScore = 0;
         
         for(size_t row = 0; row < k_Side_Len; row++){
             card_t cell = getCell(board, row, col);
             unsigned val = getVal(cell);
-            if (val == 0 && getNotes(cell) != 1) {
+            
+            if (val == 0) {
                 mine += 1;
             }
             
-            if (getNotes(cell) == 1 || beenFlipped(cell)) {
+            if (getNotes(cell) == 1 && mine > 0) {
+                mine -= 1;
+            }
+            
+            if (getNotes(cell) == 1 || getNotes(cell) == 3 || beenFlipped(cell)) {
                 available -= 1;
             }
             
+            score += val;
                 
             if(!beenFlipped(cell))
-                score += getVal(cell);
+                remainingScore += getVal(cell);
         }
         
         printf("|%3ld", score);
         
         mines[col] = mine;
         availables[col] = available;
+        remainingScores[col] = remainingScore;
+    }
+    printf("|\n    ");
+    for (size_t col = 0; col < k_Side_Len; col++) {
+        printf("|%3ld", remainingScores[col]);
     }
     printf("|\n    ");
     for (size_t col = 0; col < k_Side_Len; col++) {
@@ -202,7 +223,7 @@ void flipCell (board_t board, size_t row, size_t col) {
         return;
     } 
     
-    if(val != 1)
+    if(val != 1 && !board->gameOver)
         board->toReveal -= 1;
     
     if (!board->gameOver && board->score == 0) {
@@ -255,6 +276,7 @@ void noteCell (board_t board, size_t row, size_t col, unsigned noteVal) {
 }
 
 void flipAll(board_t board){
+    board->gameOver = true;
     for (size_t row = 0; row < k_Side_Len; row++) {
         for (size_t col = 0; col < k_Side_Len; col++) {
             flipCell(board, row, col);
