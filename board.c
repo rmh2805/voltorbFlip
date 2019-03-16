@@ -244,7 +244,7 @@ void noteCell (board_t board, size_t row, size_t col, unsigned noteVal) {
     card_t cell = getCell(board, row, col);
         
     //If a valid cell && it hasn't been flipped
-    if (cell == NULL && beenFlipped(cell))
+    if (cell == NULL || beenFlipped(cell))
         return;
         
     switch(noteVal){

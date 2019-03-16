@@ -34,7 +34,7 @@ void deleteCard (card_t card) {
 }
 //==================================<Setters>==================================//
 void addNote (card_t card, unsigned noteValue) {
-    if (card != NULL)
+    if (card == NULL)
         return;
     if (card->flipped)
         return;
