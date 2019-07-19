@@ -50,13 +50,14 @@ CCLIBFLAGS =
 
 
 CPP_FILES =	
-C_FILES =	linkedList.c voltorbFlip.c
+C_FILES =   voltorbFlip.c
 PS_FILES =	
 S_FILES =	
-H_FILES =	linkedList.h
+H_FILES =	
 SOURCEFILES =	$(H_FILES) $(CPP_FILES) $(C_FILES) $(S_FILES)
 .PRECIOUS:	$(SOURCEFILES)
-OBJFILES =	linkedList.o card.o board.o
+OBJFILES =	
+EXECUTABLES = voltorbFlip
 
 #
 # Main targets
@@ -71,11 +72,6 @@ voltorbFlip:	voltorbFlip.o $(OBJFILES)
 # Dependencies
 #
 
-linkedList.o:	linkedList.h
-voltorbFlip.o:	linkedList.h
-card.o: card.h
-board.o: board.h
-
 #
 # Housekeeping
 #
@@ -89,4 +85,4 @@ clean:
 	-/bin/rm -r -f *.o core
 
 realclean:        clean
-	-/bin/rm -r -f Executables/* 
+	-/bin/rm -r -f $(EXECUTABLES)
