@@ -1,3 +1,2 @@
 *.o
-Executables/*
-!Executables/.placeholder
+voltorbFlip

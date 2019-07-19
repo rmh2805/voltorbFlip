@@ -65,7 +65,7 @@ OBJFILES =	linkedList.o card.o board.o
 all:	voltorbFlip 
 
 voltorbFlip:	voltorbFlip.o $(OBJFILES)
-	$(CC) $(CFLAGS) -o Executables/voltorbFlip voltorbFlip.o $(OBJFILES) $(CLIBFLAGS)
+	$(CC) $(CFLAGS) -o voltorbFlip voltorbFlip.o $(OBJFILES) $(CLIBFLAGS)
 
 #
 # Dependencies
