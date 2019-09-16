@@ -38,7 +38,13 @@ int main (int argc, char** argv) {
     drawBoard();
     
     //==========//
+    setIndic(-1, 0, 5, 0);
+    flipCard(0, 0, 0);
+    flipCard(0, 1, 1);
+    flipCard(0, 2, 2);
+    flipCard(0, 3, 3);
     getch();
+    
     
     stopDisp();
     

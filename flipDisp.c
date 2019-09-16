@@ -161,3 +161,44 @@ int stopDisp () {
     endwin(); 
     return 0;
 }
+
+void flipCard (int row, int col, int val) {
+    int palette = bombPalette;
+    if(val)
+        palette = goodPalette;
+    
+    row = GET_TOP_ROW(row);
+    col = GET_LEFT_COL(col);
+    
+    char* buf = malloc(7);
+    sprintf(buf, "   %d   ", val);
+    
+    wattron(stdscr, COLOR_PAIR(palette));
+    mvprintw(row + 0, col, "       ");
+    mvprintw(row + 1, col, "       ");
+    mvprintw(row + 2, col, buf);
+    mvprintw(row + 3, col, "       ");
+    mvprintw(row + 4, col, "       ");
+    refresh();
+    wattroff(stdscr, COLOR_PAIR(palette));
+    move(0,0);
+    free(buf);
+}
+
+void setIndic (int row, int col, int bombs, int score) {
+    row = GET_TOP_ROW(row);
+    col = GET_LEFT_COL(col);
+    
+    char* buf = malloc(7);
+    wattron(stdscr, COLOR_PAIR(indicPalette));
+    sprintf(buf, "|0: %d |", bombs);
+    mvprintw(row + 1, col, buf);
+    refresh();
+    sprintf(buf, "|S: %02d|", score);
+    mvprintw(row + 3, col, buf);
+    refresh();
+    wattroff(stdscr, COLOR_PAIR(indicPalette));
+    move(0,0);
+    free(buf);
+    
+}
