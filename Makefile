@@ -1,88 +1,44 @@
 #
-# Created by gmakemake (Ubuntu Jul 25 2014) on Fri Mar 15 14:48:48 2019
+#	Commands
 #
+# Compilers
+CC=gcc
 
-#
-# Definitions
-#
+# C Flags
+CLIBS=-lm -lcurses
+CFLAGS=-Wall -std=c99 -Wextra -pedantic -ggdb
 
-.SUFFIXES:
-.SUFFIXES:	.a .o .c .C .cpp .s .S
-.c.o:
-		$(COMPILE.c) $<
-.C.o:
-		$(COMPILE.cc) $<
-.cpp.o:
-		$(COMPILE.cc) $<
-.S.s:
-		$(CPP) -o $*.s $<
-.s.o:
-		$(COMPILE.cc) $<
-.c.a:
-		$(COMPILE.c) -o $% $<
-		$(AR) $(ARFLAGS) $@ $%
-		$(RM) $%
-.C.a:
-		$(COMPILE.cc) -o $% $<
-		$(AR) $(ARFLAGS) $@ $%
-		$(RM) $%
-.cpp.a:
-		$(COMPILE.cc) -o $% $<
-		$(AR) $(ARFLAGS) $@ $%
-		$(RM) $%
-
-CC =		gcc
-CXX =		g++
-
-RM = rm -f
-AR = ar
-LINK.c = $(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS)
-LINK.cc = $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS)
-COMPILE.c = $(CC) $(CFLAGS) $(CPPFLAGS) -c
-COMPILE.cc = $(CXX) $(CXXFLAGS) $(CPPFLAGS) -c
-CPP = $(CPP) $(CPPFLAGS)
-########## Default flags (redefine these with a header.mak file if desired)
-CXXFLAGS =	-ggdb
-CFLAGS =	-ggdb
-CLIBFLAGS =	-lm
-CCLIBFLAGS =	
-########## End of default flags
-
-
-CPP_FILES =	
-C_FILES =   voltorbFlip.c
-PS_FILES =	
-S_FILES =	
-H_FILES =	
-SOURCEFILES =	$(H_FILES) $(CPP_FILES) $(C_FILES) $(S_FILES)
-.PRECIOUS:	$(SOURCEFILES)
-OBJFILES =	
-EXECUTABLES = voltorbFlip
+# Misc
+ECHO=@echo
 
 #
-# Main targets
+#	Multiple Targets
 #
 
-all:	voltorbFlip 
-
-voltorbFlip:	voltorbFlip.o $(OBJFILES)
-	$(CC) $(CFLAGS) -o voltorbFlip voltorbFlip.o $(OBJFILES) $(CLIBFLAGS)
+all: voltorbFlip
 
 #
-# Dependencies
+#	Executables
+#
+voltorbFlip: voltorbFlip.o flipDisp.o
+	$(CC) $(CFLAGS) -o voltorbFlip $^ $(CLIBS)
+	$(ECHO)
+
+#
+#	Object Files
 #
 
+voltorbFlip.o: voltorbFlip.c flipDisp.h
+	$(CC) $(CFLAGS) -c -o voltorbFlip.o voltorbFlip.c
+	
+flipDisp.o: flipDisp.c flipDisp.h
+	$(CC) $(CFLAGS) -c -o flipDisp.o flipDisp.c
+
 #
-# Housekeeping
-#
-
-Archive:	archive.tgz
-
-archive.tgz:	$(SOURCEFILES) Makefile
-	tar cf - $(SOURCEFILES) Makefile | gzip > archive.tgz
-
+#	Utils
+# 
 clean:
-	-/bin/rm -r -f *.o core
+	rm *.o
 
-realclean:        clean
-	-/bin/rm -r -f $(EXECUTABLES)
+realclean: clean
+	rm voltorbFlip

@@ -2,12 +2,17 @@
 /// author: rmh2805@rit.edu
 /// purpose: An implementation of the Voltorb Flip from pokemon HG in C (Command line only)
 
+#define _DEFAULT_SOURCE
 
 // Standard Library includes
-#include <stdlib.h> // General functions and type definition
-#include <stdio.h>  // Game IO
-#include <time.h>   // Set the seed
-#include <string.h> // Command parsing
+#include <stdlib.h> 
+#include <stdio.h>
+#include <time.h>   
+#include <string.h> 
+#include <ncurses.h>
+
+// Helper file includes
+#include "flipDisp.h"
 
 // Constant Definitions
 #define kBufSize 32 // Maximum length of a command
@@ -26,8 +31,16 @@ int main (int argc, char** argv) {
         seed = strtol(argv[1], NULL, 0);    // Grab seed from args
     srand(seed);
     
+    int numRows = 0, numCols = 0;
+    if(startDisp(&numRows, &numCols)) 
+        return EXIT_FAILURE;
     
-    char* buf;
+    drawBoard();
+    
+    //==========//
+    getch();
+    
+    stopDisp();
     
     return EXIT_SUCCESS;
 }
